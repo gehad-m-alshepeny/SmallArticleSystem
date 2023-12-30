@@ -6,6 +6,8 @@ use App\Repositories\CRUDRepositoryInterface;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
+
 
 class ArticleRepository implements CRUDRepositoryInterface
 {
@@ -14,9 +16,12 @@ class ArticleRepository implements CRUDRepositoryInterface
         if(request()->has('titlesearch')){
             $articles = Article::search(request()->titlesearch)->get(); 
         }else{
-            $articles =  Article::with('comments')->approved()->latest()->get(); 
+        //handle caching 
+          $articles = Cache::rememberForever('articles', function () {
+             return Article::with('comments')->approved()->latest()->get(); 
+        });
         }
-
+ 
         return $articles;             
     }
 
@@ -28,7 +33,7 @@ class ArticleRepository implements CRUDRepositoryInterface
     public function store(array $data)
     {
         $data['created_by'] = auth()->user()->id;
-        
+   
         return Article::create($data);
     }
 
