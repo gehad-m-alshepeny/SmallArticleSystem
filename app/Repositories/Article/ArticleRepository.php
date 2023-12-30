@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 
-
 class ArticleRepository implements CRUDRepositoryInterface
 {
     public function all()
@@ -33,7 +32,7 @@ class ArticleRepository implements CRUDRepositoryInterface
     public function store(array $data)
     {
         $data['created_by'] = auth()->user()->id;
-   
+
         return Article::create($data);
     }
 

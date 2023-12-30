@@ -2,8 +2,11 @@
 
 namespace App\Observers;
 
+use App\Models\User;
 use App\Models\Article;
 use Illuminate\Support\Facades\Cache;
+use Notification;
+use App\Notifications\AdminNewArticleNotification;
 
 class ArticleObserver
 {
@@ -13,6 +16,9 @@ class ArticleObserver
     public function created(Article $article): void
     {
         Cache::forget('articles');
+
+        $admins=User::where('role_id',ADMIN)->get();
+        Notification::send($admins, new AdminNewArticleNotification($article));
     }
 
     /**
