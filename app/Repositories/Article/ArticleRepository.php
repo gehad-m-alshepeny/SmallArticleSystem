@@ -2,11 +2,12 @@
 
 namespace App\Repositories\Article;
 
-use App\Repositories\Article\ArticleRepositoryInterface;
+use App\Repositories\CRUDRepositoryInterface;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
-class ArticleRepository implements ArticleRepositoryInterface
+class ArticleRepository implements CRUDRepositoryInterface
 {
     public function all()
     {
@@ -31,9 +32,14 @@ class ArticleRepository implements ArticleRepositoryInterface
         return Article::create($data);
     }
 
-    public function update($id, array $data)
+    public function update(array $data, $article)
     {
-        return Article::whereId($id)->update($data);
+        return $article->update($data); 
+    }
+
+    public function delete($article)
+    {
+        return $article->delete();
     }
 
     public function approve($id)
@@ -43,11 +49,6 @@ class ArticleRepository implements ArticleRepositoryInterface
             'approved_by'=> auth()->user()->id,
             'approved_at'=> now()
             ]);
-    }
-
-    public function delete($id)
-    {
-        return Article::find($id)->delete();
     }
    
 

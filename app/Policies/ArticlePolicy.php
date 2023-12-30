@@ -50,6 +50,9 @@ class ArticlePolicy
      */
     public function update(?User $user, Article $article): bool
     {
+        if(Auth::user()->role_id == ADMIN)
+        return true;
+
         return $user->id === $article->created_by;
     }
 

@@ -46,15 +46,15 @@
                     <td>{{ $article->createdBy->name }}</td>
                     <td>{{ $article->status }}</td> 
                     <td>
-                    <form method="post" action="{{ route('articles.destroy',$article->id) }}">
-                        @csrf
-                        @method('PUT')
-                        <a class="btn btn-info" href="{{ route('articles.show',$article->id) }}">Show</a>
+                    <form action="{{ route('articles.destroy',$article->id) }}" method="POST">
+                       <a class="btn btn-info" href="{{ route('articles.show',$article->id) }}">Show</a>
                         @can('update', $article)
                         <a class="btn btn-primary" href="{{ route('articles.edit',$article->id) }}">Edit</a>
                         @endcan
                         @can('delete', $article)
-                         <button type="submit" class="btn btn-danger" >Delete </button>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
                         @endcan
                     </form>
                     </td>

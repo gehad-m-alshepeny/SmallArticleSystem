@@ -68,7 +68,7 @@ class ArticleController extends Controller
     {
         $data =  $request->only(['title', 'content']);
 
-        $articles = $this->articleService->update($article->id, $data);
+        $articles = $this->articleService->update($data, $article);
 
         return redirect()->route('articles.index')
                         ->with('success','Article updated successfully');
@@ -87,7 +87,7 @@ class ArticleController extends Controller
     }
     public function destroy(Article $article): RedirectResponse
     {
-         $this->articleService->delete($article->id);
+         $this->articleService->delete($article);
 
         return redirect()->route('articles.index')
                         ->with('success','Article deleted successfully');

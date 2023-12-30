@@ -58,11 +58,11 @@ class ArticleService
     *
     * @return String
     */
-    public function update($id, array $data)
+    public function update($data, Article $article)
     {
-        $this->authorize('approve', Article::class);
+        $this->authorize('update', $article);
         
-        return $this->articleRepository->update($id, $data);
+        return $this->articleRepository->update($data, $article);
     }
 
      /**
@@ -93,11 +93,11 @@ class ArticleService
     *
     * @return String
     */
-    public function delete($id)
+    public function delete(Article $article)
     {
-        $this->authorize('delete', Article::class);
-        
-        return $this->articleRepository->delete($id);
+        $this->authorize('delete', $article);
+ 
+        return $this->articleRepository->delete($article);
     }
 
     
