@@ -41,6 +41,14 @@ class Article extends Model
        return $query->with('comments')->approved();
     }
 
+    public function toSearchableArray()
+    {
+        return [
+            'title' => $this->title,
+            'content' => $this->content
+        ];
+    }
+
      /***********************
      * Relationships
      **********************/

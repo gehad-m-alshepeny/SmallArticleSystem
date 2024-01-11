@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Cache;
 class ArticleRepository implements CRUDRepositoryInterface
 {
     public function all()
-    {
+    {  
         if(request()->has('titlesearch')){
-            $articles = Article::search(request()->titlesearch)->get(); 
-        }else{
-        //handle caching 
-          $articles = Cache::rememberForever('articles', function () {
-             return Article::with('comments')->approved()->latest()->get(); 
-        });
+            $articles = Article::search(request()->titlesearch)->paginate(10); 
+        } else {
+            $articles = Cache::rememberForever('articles_'. request('page', 1), function () {
+                return Article::with('comments')->approved()->latest()->paginate(10); 
+            });
         }
  
         return $articles;             

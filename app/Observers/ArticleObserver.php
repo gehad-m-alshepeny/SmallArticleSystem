@@ -10,12 +10,25 @@ use App\Notifications\AdminNewArticleNotification;
 
 class ArticleObserver
 {
+
+    private function clearCache(){
+
+        for($i=0;$i<=100;$i++){
+            $key='articles_'.$i;
+            if(Cache::has($key)){
+              Cache::forget($key);
+            }else{
+                break;
+            }
+        }
+
+    }
     /**
      * Handle the Article "created" event.
      */
     public function created(Article $article): void
     {
-        Cache::forget('articles');
+        $this->clearCache();
 
         $admins=User::where('role_id',ADMIN)->get();
         Notification::send($admins, new AdminNewArticleNotification($article));
@@ -26,7 +39,7 @@ class ArticleObserver
      */
     public function updated(Article $article): void
     {
-        Cache::forget('articles');
+        $this->clearCache();
     }
 
     /**
@@ -34,7 +47,7 @@ class ArticleObserver
      */
     public function deleted(Article $article): void
     {
-        Cache::forget('articles');
+        $this->clearCache();
     }
 
     /**
