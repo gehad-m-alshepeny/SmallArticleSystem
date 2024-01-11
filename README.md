@@ -131,7 +131,8 @@ ALGOLIA_SECRET=0f46e3857ddc8e8aaae26125e8ac204e" tabindex="0" role="button" styl
 </svg>
     </clipboard-copy>
   </div></div>
-    
-  
+Admin is seeded and here is the credentials:
+email: admin@gmail.com
+password: admin
 
 </article>
